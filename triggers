@@ -1,0 +1,24 @@
+DELIMITER //
+
+CREATE TRIGGER auto_insert_user_subclass
+AFTER INSERT ON users_t
+FOR EACH ROW
+BEGIN
+    -- Enforce total completeness: must be section_user or department_user
+    IF NEW.type NOT IN ('section_user', 'department_user') THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'User type must be either section_user or department_user';
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+
+Sample Test Insert:
+
+INSERT INTO users_t (firstname, middlename, lastname, username, password, type, status)
+VALUES ('Carlos', 'D.', 'Reyes', 'creyes', 'cpass', 'section_user', 1);
+
+SELECT * FROM section_user_t;
+SELECT * FROM department_user_t;
