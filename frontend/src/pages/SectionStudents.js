@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useParams } from 'react-router-dom';
 import './styles.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import Breadcrumbs from '../components/Breadcrumbs';
 
 function SectionStudents() {
@@ -24,6 +25,8 @@ function SectionStudents() {
   const [sections, setSections] = useState([]);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const fetchData = async () => {
     try {
@@ -171,8 +174,8 @@ function SectionStudents() {
     if (latestAcademicInfo) {
       setSelectedAcadInfo({
         gradeLevel: latestAcademicInfo.gradeLevel,
-        schoolYear: latestAcademicInfo.schoolYear,
-        semester: latestAcademicInfo.semester,
+        schoolYear: academicSettings?.current_school_year || latestAcademicInfo.schoolYear, // Use current school year from settings
+        semester: academicSettings?.current_semester || latestAcademicInfo.semester, // Use current semester from settings
         entryStatus: latestAcademicInfo.entryStatus,
         strand_id: latestAcademicInfo.strand_id?.toString() || latestAcademicInfo.STRAND_T?.strand_id?.toString(),
         section_id: latestAcademicInfo.section_id?.toString() || latestAcademicInfo.SECTION_T?.section_id?.toString(),
@@ -193,7 +196,23 @@ function SectionStudents() {
     setErrorMessage("");
   };
 
-  const handleAcadModalSubmit = (values) => {
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    setSuccessMessage("");
+  };
+
+  // Validation schema for academic info form
+  const academicInfoSchema = Yup.object().shape({
+    gradeLevel: Yup.string().required("Grade level is required"),
+    schoolYear: Yup.string().required("School year is required"),
+    semester: Yup.string().required("Semester is required"),
+    entryStatus: Yup.string().required("Entry status is required"),
+    strand_id: Yup.string().required("Strand is required"),
+    section_id: Yup.string().required("Section is required"),
+    department_id: Yup.string().required("Department is required"),
+  });
+
+  const handleAcadModalSubmit = async (values) => {
     // Check if any selected student already has an academic record for this school year and semester
     const hasDuplicateRecord = selectedStudents.some(studentId => {
       const student = students.find(s => s.student_id === studentId);
@@ -210,13 +229,53 @@ function SectionStudents() {
       return;
     }
 
-    // Apply the academic info to all selected students
-    selectedStudents.forEach(studentId => {
-      // Here you can call an API to update the student's academic info
-      // For now, I'll just log the values
-      console.log(`Updating student ${studentId} with:`, values);
-    });
-    setShowAcadModal(false);
+    try {
+      // Apply the academic info to all selected students
+      const promises = selectedStudents.map(async (studentId) => {
+        const academicInfoData = {
+          student_id: studentId,
+          gradeLevel: values.gradeLevel,
+          schoolYear: values.schoolYear,
+          semester: values.semester,
+          entryStatus: values.entryStatus,
+          strand_id: parseInt(values.strand_id),
+          section_id: parseInt(values.section_id),
+          department_id: parseInt(values.department_id),
+          exitStatus: "Pending" // Default exit status for new academic records
+        };
+
+        // Create academic info record
+        const academicResponse = await axios.post("http://localhost:3001/academicInfo", academicInfoData);
+        
+        // Create academic performance record
+        const academicPerformanceData = {
+          acads_id: academicResponse.data.acads_id,
+          gpa: null,
+          honors: null
+        };
+
+        await axios.post("http://localhost:3001/academicPerformance", academicPerformanceData);
+      });
+
+      await Promise.all(promises);
+      
+      // Refresh the data to show updated records
+      await fetchData();
+      
+      // Reset the form and close modal
+      setShowAcadModal(false);
+      setShowCheckboxes(false);
+      setSelectedStudents([]);
+      
+      // Show success message
+      setSuccessMessage(`${selectedStudents.length} student(s) promoted successfully!`);
+      setShowSuccessModal(true);
+      
+    } catch (error) {
+      console.error("Error promoting students:", error);
+      setErrorMessage("Failed to promote students. Please try again.");
+      setShowErrorModal(true);
+    }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -242,6 +301,33 @@ function SectionStudents() {
                 style={{ 
                   backgroundColor: '#dc3545',
                   borderColor: '#dc3545',
+                  color: 'white'
+                }}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="modal-overlay">
+          <div className="modal-content" style={{ border: '2px solid #28a745' }}>
+            <div className="modal-header" style={{ backgroundColor: '#28a745', color: 'white' }}>
+              <h3>Success</h3>
+            </div>
+            <div className="modal-body">
+              <p style={{ color: '#28a745' }}>{successMessage}</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                className="modal-button"
+                onClick={handleCloseSuccessModal}
+                style={{ 
+                  backgroundColor: '#28a745',
+                  borderColor: '#28a745',
                   color: 'white'
                 }}
               >
@@ -324,13 +410,14 @@ function SectionStudents() {
                 enableReinitialize
                 initialValues={{
                   gradeLevel: selectedAcadInfo?.gradeLevel || '',
-                  schoolYear: selectedAcadInfo?.schoolYear || '',
-                  semester: selectedAcadInfo?.semester || '',
+                  schoolYear: selectedAcadInfo?.schoolYear || academicSettings?.current_school_year || '',
+                  semester: selectedAcadInfo?.semester || academicSettings?.current_semester || '',
                   entryStatus: selectedAcadInfo?.entryStatus || '',
                   strand_id: selectedAcadInfo?.strand_id || '',
                   section_id: selectedAcadInfo?.section_id || '',
                   department_id: selectedAcadInfo?.department_id || '',
                 }}
+                validationSchema={academicInfoSchema}
                 onSubmit={handleAcadModalSubmit}
               >
                 {(formik) => (
