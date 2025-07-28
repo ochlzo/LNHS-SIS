@@ -56,7 +56,7 @@ export const rolePrivileges = {
     
     // Department Management
     canManageDepartments: false,
-    canViewDepartments: false,
+    canViewDepartments: true,  // Can view departments (especially their own)
     
     // Section Management
     canManageSections: false,

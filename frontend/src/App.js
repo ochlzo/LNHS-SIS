@@ -92,24 +92,20 @@ function App() {
             </>
           )}
 
-          {(privileges?.canViewDepartments ||
-            privileges?.canViewSubjects ||
-            (!privileges?.departmentId && !privileges?.sectionId) ||
-            privileges?.departmentId) && (
+          {/* Departments Link - Only for users who can view departments */}
+          {privileges?.canViewDepartments && (
             <>
-              {(privileges?.canViewDepartments || privileges?.departmentId) && (
-                <>
-                  <Link to={`/Departments${privileges?.departmentId ? `/${privileges.departmentId}` : ''}`} className={isActive('/Departments') ? 'active' : ''}>Departments</Link>
-                  <br />
-                </>
-              )}
-              {(privileges?.canViewSubjects ||
-                (!privileges?.departmentId && !privileges?.sectionId)) && (
-                <>
-                  <Link to="/Subjects" className={isActive('/Subjects') ? 'active' : ''}>Curriculum</Link>
-                  <br />
-                </>
-              )}
+              <Link to={`/Departments${privileges?.departmentId ? `/${privileges.departmentId}` : ''}`} className={isActive('/Departments') ? 'active' : ''}>Departments</Link>
+              <br />
+            </>
+          )}
+
+          {/* Subjects/Curriculum Link */}
+          {(privileges?.canViewSubjects ||
+            (!privileges?.departmentId && !privileges?.sectionId)) && (
+            <>
+              <Link to="/Subjects" className={isActive('/Subjects') ? 'active' : ''}>Curriculum</Link>
+              <br />
             </>
           )}
 
@@ -177,7 +173,7 @@ function App() {
           <Route
             path="/Departments"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredPrivileges={['canViewDepartments']}>
                 <Departments />
               </ProtectedRoute>
             }
@@ -186,7 +182,7 @@ function App() {
           <Route
             path="/Departments/:departmentId"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredPrivileges={['canViewDepartments']}>
                 <Departments />
               </ProtectedRoute>
             }

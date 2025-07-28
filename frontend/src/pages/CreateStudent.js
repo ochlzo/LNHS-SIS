@@ -301,7 +301,6 @@ function CreateStudent() {
 
   return (
     <div>
-
       <div className="create_main">
         {showSuccessMessage && (
           <div className="success-message">Student successfully added!</div>
@@ -318,313 +317,334 @@ function CreateStudent() {
 
               <h2 className="title">New Student</h2>
 
-              <div className="lrn_div">
-                <label className="label">Learner's Reference Number:</label>
-                <Field
-                  name="studentID"
-                  placeholder="XXX - XXX - XXX - XXX"
-                  className="lrn_input"
-                />
-                <StyledErrorMessage name="studentID" />
-              </div>
-
-              <div className="name_div">
-                <div className="field-group">
-                  <label className="label">Last Name:</label>
+              <div className="form-section">
+                <div className="lrn_div">
+                  <label className="label">Learner's Reference Number:</label>
                   <Field
-                    name="lastName"
-                    placeholder="LAST NAME"
-                    className="l-input"
+                    name="studentID"
+                    placeholder="XXX - XXX - XXX - XXX"
+                    className="lrn_input"
                   />
-                  <StyledErrorMessage name="lastName" />
-                </div>
-
-                <div className="field-group">
-                  <label className="label">First Name:</label>
-                  <Field
-                    name="firstName"
-                    placeholder="FIRST NAME"
-                    className="f-input"
-                  />
-                  <StyledErrorMessage name="firstName" />
-                </div>
-
-                <div className="field-group">
-                  <label className="m-label">Middle Name:</label>
-                  <Field
-                    name="middleName"
-                    placeholder="MIDDLE NAME"
-                    className="m-input"
-                  />
-                  <StyledErrorMessage name="middleName" />
-                </div>
-
-                <div className="field-group">
-                  <label className="s-label">Suffix:</label>
-                  <Field name="suffix" as="select" className="s-input">
-                    <option value="default" disabled selected hidden>
-                      -Suffix-
-                    </option>
-                    <option value="None">None</option>
-                    <option value="Jr.">Jr.</option>
-                    <option value="Sr.">Sr.</option>
-                    <option value="II">II</option>
-                    <option value="III">III</option>
-                    <option value="IV">IV</option>
-                  </Field>
+                  <StyledErrorMessage name="studentID" />
                 </div>
               </div>
 
-              <div className="birth_div">
-                <div className="field-group">
-                  <label className="label">Date of Birth:</label>
-                  <Field
-                    type="date"
-                    id="inputCreateStudent"
-                    name="birthDate"
-                    max={
-                      new Date(
-                        new Date().setFullYear(new Date().getFullYear() - 15)
-                      )
-                        .toISOString()
-                        .split("T")[0]
-                    }
-                    autoComplete="off"
-                    className="b-input"
-                  />
-                  <StyledErrorMessage name="birthDate" />
-                </div>
+              <div className="form-section">
+                <h3 className="section-title">Personal Information</h3>
+                <div className="name_div">
+                  <div className="field-group">
+                    <label className="l-label">Last Name:</label>
+                    <Field
+                      name="lastName"
+                      placeholder="LAST NAME"
+                      className="l-input"
+                    />
+                    <StyledErrorMessage name="lastName" />
+                  </div>
 
-                <div className="field-group">
-                  <label className="plabel">Place of Birth:</label>
-                  <Field
-                    name="placeOfBirth"
-                    placeholder="PLACE OF BIRTH"
-                    className="p-input"
-                  />
-                  <StyledErrorMessage name="placeOfBirth" />
-                </div>
+                  <div className="field-group">
+                    <label className="label">First Name:</label>
+                    <Field
+                      name="firstName"
+                      placeholder="FIRST NAME"
+                      className="f-input"
+                    />
+                    <StyledErrorMessage name="firstName" />
+                  </div>
 
-                <div className="field-group">
-                  <label className="alabel">Age:</label>
-                  <Field
-                    name="age"
-                    placeholder="AGE"
-                    className="a-input"
-                    readOnly
-                  />
-                </div>
+                  <div className="field-group">
+                    <label className="m-label">Middle Name:</label>
+                    <Field
+                      name="middleName"
+                      placeholder="MIDDLE NAME"
+                      className="m-input"
+                    />
+                    <StyledErrorMessage name="middleName" />
+                  </div>
 
-                <div className="field-group">
-                  <label className="xlabel">Sex:</label>
-                  <Field as="select" name="sex" className="x-input">
-                    <option value="">Select Sex</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </Field>
-                  <StyledErrorMessage name="sex" />
-                </div>
-              </div>
-
-              <div className="contact_div">
-                <div className="field-group">
-                  <label className="label">Contact Number:</label>
-                  <Field
-                    name="contactNumber"
-                    placeholder="XXXX - XXX - XXXX"
-                    className="con_input"
-                  />
-                  <StyledErrorMessage name="contactNumber" />
-                </div>
-
-                <div className="field-group">
-                  <label className="elabel">Email:</label>
-                  <Field
-                    name="email"
-                    placeholder="you@example.com"
-                    className="em_input"
-                  />
-                  <StyledErrorMessage name="email" />
+                  <div className="field-group">
+                    <label className="s-label">Suffix:</label>
+                    <Field name="suffix" as="select" className="s-input">
+                      <option value="" disabled>
+                        -Suffix-
+                      </option>
+                      <option value="None">None</option>
+                      <option value="Jr.">Jr.</option>
+                      <option value="Sr.">Sr.</option>
+                      <option value="II">II</option>
+                      <option value="III">III</option>
+                      <option value="IV">IV</option>
+                    </Field>
+                  </div>
                 </div>
               </div>
 
-              <div className="place_div">
-                <div className="field-group">
-                  <label className="label">Religion:</label>
-                  <Field
-                    name="religion"
-                    placeholder="Religion"
-                    className="rel_input"
-                  />
-                  <StyledErrorMessage name="religion" />
-                </div>
+              <div className="form-section">
+                <h3 className="section-title">Birth Information</h3>
+                <div className="birth_div">
+                  <div className="field-group">
+                    <label className="label">Date of Birth:</label>
+                    <Field
+                      type="date"
+                      id="inputCreateStudent"
+                      name="birthDate"
+                      max={
+                        new Date(
+                          new Date().setFullYear(new Date().getFullYear() - 15)
+                        )
+                          .toISOString()
+                          .split("T")[0]
+                      }
+                      autoComplete="off"
+                      className="b-input"
+                    />
+                    <StyledErrorMessage name="birthDate" />
+                  </div>
 
-                <div className="field-group">
-                  <label className="natlabel">Nationality:</label>
-                  <Field
-                    name="nationality"
-                    placeholder="Nationality"
-                    className="nat_input"
-                  />
-                  <StyledErrorMessage name="nationality" />
-                </div>
-              </div>
+                  <div className="field-group">
+                    <label className="plabel">Place of Birth:</label>
+                    <Field
+                      name="placeOfBirth"
+                      placeholder="PLACE OF BIRTH"
+                      className="p-input"
+                    />
+                    <StyledErrorMessage name="placeOfBirth" />
+                  </div>
 
-              <div className="hw_div">
-                <div className="field-group">
-                  <label className="label">Height (cm):</label>
-                  <Field
-                    name="height"
-                    placeholder="CM"
-                    className="he_input"
-                  />
-                  <StyledErrorMessage name="height" />
-                </div>
+                  <div className="field-group">
+                    <label className="alabel">Age:</label>
+                    <Field
+                      name="age"
+                      placeholder="AGE"
+                      className="a-input"
+                      readOnly
+                    />
+                  </div>
 
-                <div className="field-group">
-                  <label className="wlabel">Weight (kg):</label>
-                  <Field
-                    name="weight"
-                    placeholder="KG"
-                    className="we_input"
-                  />
-                  <StyledErrorMessage name="weight" />
-                </div>
-
-                <div className="field-group">
-                  <label className="label">BMI:</label>
-                  <Field
-                    name="bmi"
-                    placeholder="BMI"
-                    className="we_input"
-                    readOnly
-                  />
-                </div>
-              </div>
-
-              <div className="current_div">
-                <h3 className="label">Current Address</h3>
-                <div className="field-group">
-                  <label className="clabel">House Number:</label>
-                  <Field
-                    name="currentAddress.houseNumber"
-                    placeholder="HOUSE NUMBER"
-                    className="hnum_input"
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label className="clabel">Street/Barangay:</label>
-                  <Field
-                    name="currentAddress.streetBarangay"
-                    placeholder="STREET AND BARANGAY"
-                    className="bar_input"
-                  />
-                  <StyledErrorMessage name="currentAddress.streetBarangay" />
-                </div>
-
-                <div className="field-group">
-                  <label className="clabel">City/Municipality:</label>
-                  <Field
-                    name="currentAddress.cityMunicipality"
-                    placeholder="MUNICIPALITY / CITY"
-                    className="ct_input"
-                  />
-                  <StyledErrorMessage name="currentAddress.cityMunicipality" />
-                </div>
-
-                <div className="field-group">
-                  <label className="clabel">Province:</label>
-                  <Field
-                    name="currentAddress.province"
-                    placeholder="PROVINCE"
-                    className="prov_input"
-                  />
-                  <StyledErrorMessage name="currentAddress.province" />
+                  <div className="field-group">
+                    <label className="xlabel">Sex:</label>
+                    <Field as="select" name="sex" className="x-input">
+                      <option value="">Select Sex</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </Field>
+                    <StyledErrorMessage name="sex" />
+                  </div>
                 </div>
               </div>
 
-              <div className="current_div">
-                <h3 className="label">Permanent Address</h3>
-                <div className="field-group">
-                  <label className="clabel">House Number:</label>
-                  <Field
-                    name="permanentAddress.houseNumber"
-                    placeholder="HOUSE NUMBER"
-                    className="hnum_input"
-                  />
-                </div>
+              <div className="form-section">
+                <h3 className="section-title">Contact Information</h3>
+                <div className="contact_div">
+                  <div className="field-group">
+                    <label className="label">Contact Number:</label>
+                    <Field
+                      name="contactNumber"
+                      placeholder="XXXX - XXX - XXXX"
+                      className="con_input"
+                    />
+                    <StyledErrorMessage name="contactNumber" />
+                  </div>
 
-                <div className="field-group">
-                  <label className="clabel">Street/Barangay:</label>
-                  <Field
-                    name="permanentAddress.streetBarangay"
-                    placeholder="STREET AND BARANGAY"
-                    className="bar_input"
-                  />
-                  <StyledErrorMessage name="permanentAddress.streetBarangay" />
-                </div>
-
-                <div className="field-group">
-                  <label className="clabel">City/Municipality:</label>
-                  <Field
-                    name="permanentAddress.cityMunicipality"
-                    placeholder="MUNICIPALITY / CITY"
-                    className="ct_input"
-                  />
-                  <StyledErrorMessage name="permanentAddress.cityMunicipality" />
-                </div>
-
-                <div className="field-group">
-                  <label className="clabel">Province:</label>
-                  <Field
-                    name="permanentAddress.province"
-                    placeholder="PROVINCE"
-                    className="prov_input"
-                  />
-                  <StyledErrorMessage name="permanentAddress.province" />
+                  <div className="field-group">
+                    <label className="elabel">Email:</label>
+                    <Field
+                      name="email"
+                      placeholder="you@example.com"
+                      className="em_input"
+                    />
+                    <StyledErrorMessage name="email" />
+                  </div>
                 </div>
               </div>
 
-              <div className="parent_div">
-                <div className="field-group">
-                  <label className="clabel">Guardian First Name:</label>
-                  <Field
-                    name="pgFirstName"
-                    placeholder="FIRST NAME"
-                    className="gname_input"
-                  />
-                  <StyledErrorMessage name="pgFirstName" />
+              <div className="form-section">
+                <h3 className="section-title">Personal Details</h3>
+                <div className="place_div">
+                  <div className="field-group">
+                    <label className="label">Religion:</label>
+                    <Field
+                      name="religion"
+                      placeholder="Religion"
+                      className="rel_input"
+                    />
+                    <StyledErrorMessage name="religion" />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="natlabel">Nationality:</label>
+                    <Field
+                      name="nationality"
+                      placeholder="Nationality"
+                      className="nat_input"
+                    />
+                    <StyledErrorMessage name="nationality" />
+                  </div>
                 </div>
 
-                <div className="field-group">
-                  <label className="clabel">Guardian Middle Name:</label>
-                  <Field
-                    name="pgMiddleName"
-                    placeholder="MIDDLE NAME"
-                    className="mname_input"
-                  />
-                  <StyledErrorMessage name="pgMiddleName" />
-                </div>
+                <div className="hw_div">
+                  <div className="field-group">
+                    <label className="label">Height (cm):</label>
+                    <Field
+                      name="height"
+                      placeholder="CM"
+                      className="he_input"
+                    />
+                    <StyledErrorMessage name="height" />
+                  </div>
 
-                <div className="field-group">
-                  <label className="clabel">Guardian Last Name:</label>
-                  <Field
-                    name="pgLastName"
-                    placeholder="LAST NAME"
-                    className="lname_input"
-                  />
-                  <StyledErrorMessage name="pgLastName" />
-                </div>
+                  <div className="field-group">
+                    <label className="wlabel">Weight (kg):</label>
+                    <Field
+                      name="weight"
+                      placeholder="KG"
+                      className="we_input"
+                    />
+                    <StyledErrorMessage name="weight" />
+                  </div>
 
-                <div className="field-group">
-                  <label className="clabel">Guardian Contact Number:</label>
-                  <Field
-                    name="pgContactNum"
-                    placeholder="CONTACT #"
-                    className="contact_input"
-                  />
-                  <StyledErrorMessage name="pgContactNum" />
+                  <div className="field-group">
+                    <label className="label">BMI:</label>
+                    <Field
+                      name="bmi"
+                      placeholder="BMI"
+                      className="we_input"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h3 className="section-title">Current Address</h3>
+                <div className="current_div">
+                  <div className="field-group">
+                    <label className="clabel">House Number:</label>
+                    <Field
+                      name="currentAddress.houseNumber"
+                      placeholder="HOUSE NUMBER"
+                      className="hnum_input"
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">Street/Barangay:</label>
+                    <Field
+                      name="currentAddress.streetBarangay"
+                      placeholder="STREET AND BARANGAY"
+                      className="bar_input"
+                    />
+                    <StyledErrorMessage name="currentAddress.streetBarangay" />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">City/Municipality:</label>
+                    <Field
+                      name="currentAddress.cityMunicipality"
+                      placeholder="MUNICIPALITY / CITY"
+                      className="ct_input"
+                    />
+                    <StyledErrorMessage name="currentAddress.cityMunicipality" />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">Province:</label>
+                    <Field
+                      name="currentAddress.province"
+                      placeholder="PROVINCE"
+                      className="prov_input"
+                    />
+                    <StyledErrorMessage name="currentAddress.province" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h3 className="section-title">Permanent Address</h3>
+                <div className="current_div">
+                  <div className="field-group">
+                    <label className="clabel">House Number:</label>
+                    <Field
+                      name="permanentAddress.houseNumber"
+                      placeholder="HOUSE NUMBER"
+                      className="hnum_input"
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">Street/Barangay:</label>
+                    <Field
+                      name="permanentAddress.streetBarangay"
+                      placeholder="STREET AND BARANGAY"
+                      className="bar_input"
+                    />
+                    <StyledErrorMessage name="permanentAddress.streetBarangay" />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">City/Municipality:</label>
+                    <Field
+                      name="permanentAddress.cityMunicipality"
+                      placeholder="MUNICIPALITY / CITY"
+                      className="ct_input"
+                    />
+                    <StyledErrorMessage name="permanentAddress.cityMunicipality" />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">Province:</label>
+                    <Field
+                      name="permanentAddress.province"
+                      placeholder="PROVINCE"
+                      className="prov_input"
+                    />
+                    <StyledErrorMessage name="permanentAddress.province" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h3 className="section-title">Parent/Guardian Information</h3>
+                <div className="parent_div">
+                  <div className="field-group">
+                    <label className="clabel">Guardian First Name:</label>
+                    <Field
+                      name="pgFirstName"
+                      placeholder="FIRST NAME"
+                      className="gname_input"
+                    />
+                    <StyledErrorMessage name="pgFirstName" />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">Guardian Middle Name:</label>
+                    <Field
+                      name="pgMiddleName"
+                      placeholder="MIDDLE NAME"
+                      className="mname_input"
+                    />
+                    <StyledErrorMessage name="pgMiddleName" />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">Guardian Last Name:</label>
+                    <Field
+                      name="pgLastName"
+                      placeholder="LAST NAME"
+                      className="lname_input"
+                    />
+                    <StyledErrorMessage name="pgLastName" />
+                  </div>
+
+                  <div className="field-group">
+                    <label className="clabel">Guardian Contact Number:</label>
+                    <Field
+                      name="pgContactNum"
+                      placeholder="CONTACT #"
+                      className="contact_input"
+                    />
+                    <StyledErrorMessage name="pgContactNum" />
+                  </div>
                 </div>
               </div>
 

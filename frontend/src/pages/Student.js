@@ -1342,6 +1342,7 @@ function Student() {
           border-radius: 4px;
           cursor: pointer;
           font-size: 14px;
+          color: black;
         }
 
         .dropdown-button:hover {
